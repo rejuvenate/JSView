@@ -1,1 +1,10 @@
-
+pref('extensions.{cf15270e-cf08-4def-b4ea-6a5ac23f3bca}.description','chrome://jsview/locale/jsview.properties');
+pref('view_source.editor.path','');
+pref('jsview.unwantedFileTypes',' cgi ');
+pref('jsview.menuItemsBehavior',0);
+pref('jsview.clearTemp',false);
+pref('jsview.hideView',false);
+pref('jsview.hideStatus',false);
+pref('jsview.hideContext',false);
+pref('jsview.showChromeUrls',false);
+pref('jsview.fileSizeInKB',true);
