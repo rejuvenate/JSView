@@ -1,0 +1,32 @@
+overlay	chrome://browser/content/browser.xul	chrome://jsview/content/jsviewOverlay.xul
+overlay	chrome://navigator/content/navigator.xul	chrome://jsview/content/jsviewOverlay.xul
+overlay	chrome://songbird/content/xul/mainScriptsOverlay.xul	chrome://jsview/content/jsviewOverlay.xul
+overlay	chrome://browser/content/pageInfo.xul	chrome://jsview/content/jsviewPageInfoOverlay.xul
+overlay	chrome://navigator/content/pageInfo.xul	chrome://jsview/content/jsviewPageInfoOverlay.xul
+overlay	chrome://global/content/viewSource.xul	chrome://jsview/content/jsviewViewSourceOverlay.xul
+overlay	chrome://navigator/content/viewSource.xul	chrome://jsview/content/jsviewViewSourceOverlay.xul
+
+content	jsview	jar:chrome/jsview.jar!/content/jsview/
+
+skin	jsview	classic/1.0	jar:chrome/jsview.jar!/skin/classic/jsview/
+
+locale	jsview	be-BY	jar:chrome/jsview.jar!/locale/be-BY/jsview/
+locale	jsview	cs-CZ	jar:chrome/jsview.jar!/locale/cs-CZ/jsview/
+locale	jsview	de-DE	jar:chrome/jsview.jar!/locale/de-DE/jsview/
+locale	jsview	en-US	jar:chrome/jsview.jar!/locale/en-US/jsview/
+locale	jsview	es-ES	jar:chrome/jsview.jar!/locale/es-ES/jsview/
+locale	jsview	fr-FR	jar:chrome/jsview.jar!/locale/fr-FR/jsview/
+locale	jsview	hr-HR	jar:chrome/jsview.jar!/locale/hr-HR/jsview/
+locale	jsview	hu-HU	jar:chrome/jsview.jar!/locale/hu-HU/jsview/
+locale	jsview	it-IT	jar:chrome/jsview.jar!/locale/it-IT/jsview/
+locale	jsview	ja-JP	jar:chrome/jsview.jar!/locale/ja-JP/jsview/
+locale	jsview	ko-KR	jar:chrome/jsview.jar!/locale/ko-KR/jsview/
+locale	jsview	nl-NL	jar:chrome/jsview.jar!/locale/nl-NL/jsview/
+locale	jsview	pl-PL	jar:chrome/jsview.jar!/locale/pl-PL/jsview/
+locale	jsview	pt-BR	jar:chrome/jsview.jar!/locale/pt-BR/jsview/
+locale	jsview	pt-PT	jar:chrome/jsview.jar!/locale/pt-PT/jsview/
+locale	jsview	ro-RO	jar:chrome/jsview.jar!/locale/ro-RO/jsview/
+locale	jsview	ru-RU	jar:chrome/jsview.jar!/locale/ru-RU/jsview/
+locale	jsview	tr-TR	jar:chrome/jsview.jar!/locale/tr-TR/jsview/
+locale	jsview	zh-CN	jar:chrome/jsview.jar!/locale/zh-CN/jsview/
+locale	jsview	zh-TW	jar:chrome/jsview.jar!/locale/zh-TW/jsview/
