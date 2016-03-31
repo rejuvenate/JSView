@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+
+	<Description about="urn:mozilla:install-manifest">
+
+		<em:id>{cf15270e-cf08-4def-b4ea-6a5ac23f3bca}</em:id>
+		<em:name>JSView</em:name>
+		<em:version>2.0.5</em:version>
+		<em:description>View the source code of external javascripts.</em:description>
+		<em:creator>Ron Beckman</em:creator>
+		<em:homepageURL>http://forum.softwareblaze.com</em:homepageURL>
+		<em:iconURL>chrome://jsview/skin/jsview.gif</em:iconURL>
+		<em:aboutURL>chrome://jsview/content/jsviewAbout.xul</em:aboutURL>
+		<em:optionsURL>chrome://jsview/content/jsviewOptions.xul</em:optionsURL>
+		<!--<em:updateURL>http://forum.softwareblaze.com/jsview/update.rdf</em:updateURL>-->
+
+		<em:contributor>Jason Karl Davis (Object Reference Script)</em:contributor>
+		<em:contributor>Andrew Shadoura (be-BY)</em:contributor>
+		<em:contributor>The Zero (cs-CZ)</em:contributor>
+		<em:contributor>Team erweiterungen.de (de-DE)</em:contributor>
+		<em:contributor>PAGF_LINUX (es-ES)</em:contributor>
+		<em:contributor>Jojaba (fr-FR)</em:contributor>
+		<em:contributor>Krcko (hr-HR)</em:contributor>
+		<em:contributor>Mikes Kaszman Istvan (hu-HU)</em:contributor>
+		<em:contributor>Ginex (it-IT)</em:contributor>
+		<em:contributor>MatrixIsAllOver (it-IT)</em:contributor>
+		<em:contributor>Shadow912 (ja-JP)</em:contributor>
+		<em:contributor>Wtspout (ko-KR)</em:contributor>
+		<em:contributor>Mark Heijl (nl-NL)</em:contributor>
+		<em:contributor>Momus, Greg (pl-PL)</em:contributor>
+		<em:contributor>hugo.goncalves (pt-PT)</em:contributor>
+		<em:contributor>Fernando Pereira Silveira (pt-BR)</em:contributor>
+		<em:contributor>Pedro Luiz Failla Junior (pt-BR)</em:contributor>
+		<em:contributor>Dan Lungescu (ro-RO)</em:contributor>
+		<em:contributor>Stoneflash (ru-RU)</em:contributor>
+		<em:contributor>nikneyim (tr-TR)</em:contributor>
+		<em:contributor>Zhkl0228 (zh-CN)</em:contributor>
+		<em:contributor>Javalai (zh-TW)</em:contributor>
+
+		<em:file>
+			<Description about="urn:mozilla:extension:file:jsview.jar">
+				<em:package>content/jsview/</em:package>
+				<em:skin>skin/classic/jsview/</em:skin>
+
+				<em:locale>locale/be-BY/jsview/</em:locale>
+				<em:locale>locale/cs-CZ/jsview/</em:locale>
+				<em:locale>locale/de-DE/jsview/</em:locale>
+				<em:locale>locale/en-US/jsview/</em:locale>
+				<em:locale>locale/es-ES/jsview/</em:locale>
+				<em:locale>locale/fr-FR/jsview/</em:locale>
+				<em:locale>locale/hr-HR/jsview/</em:locale>
+				<em:locale>locale/hu-HU/jsview/</em:locale>
+				<em:locale>locale/it-IT/jsview/</em:locale>
+				<em:locale>locale/ja-JP/jsview/</em:locale>
+				<em:locale>locale/ko-KR/jsview/</em:locale>
+				<em:locale>locale/nl-NL/jsview/</em:locale>
+				<em:locale>locale/pl-PL/jsview/</em:locale>
+				<em:locale>locale/pt-PT/jsview/</em:locale>
+				<em:locale>locale/pt-BR/jsview/</em:locale>
+				<em:locale>locale/ro-RO/jsview/</em:locale>
+				<em:locale>locale/ru-RU/jsview/</em:locale>
+				<em:locale>locale/tr-TR/jsview/</em:locale>
+				<em:locale>locale/zh-CN/jsview/</em:locale>
+				<em:locale>locale/zh-TW/jsview/</em:locale>
+			</Description>
+		</em:file>
+		
+		<!-- Mozilla Firefox -->
+		<em:targetApplication>
+			<Description>
+				<em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+				<em:minVersion>2.0</em:minVersion>
+				<em:maxVersion>99.9.*</em:maxVersion>
+			</Description>
+		</em:targetApplication>
+
+		<!-- Flock -->
+		<em:targetApplication>
+			<Description>
+				<em:id>{a463f10c-3994-11da-9945-000d60ca027b}</em:id>
+				<em:minVersion>1.0</em:minVersion>
+				<em:maxVersion>1.1.*</em:maxVersion>
+			</Description>
+		</em:targetApplication>
+
+		<!-- SeaMonkey -->
+		<em:targetApplication>
+			<Description>
+				<em:id>{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}</em:id>
+				<em:minVersion>1.1</em:minVersion>
+				<em:maxVersion>2.0a1</em:maxVersion>
+			</Description>
+		</em:targetApplication>
+
+		<!-- Netscape -->
+		<em:targetApplication>
+			<Description>
+				<em:id>{3db10fab-e461-4c80-8b97-957ad5f8ea47}</em:id>
+				<em:minVersion>9.0</em:minVersion>
+				<em:maxVersion>9.0.*</em:maxVersion>
+			</Description>
+		</em:targetApplication>
+
+		<!-- Songbird -->
+		<em:targetApplication>
+			<Description>
+				<em:id>songbird@songbirdnest.com</em:id>
+				<em:minVersion>0.4</em:minVersion>
+				<em:maxVersion>0.6</em:maxVersion>
+			</Description>
+		</em:targetApplication>
+	</Description>
+
+</RDF>
