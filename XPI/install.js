@@ -6,9 +6,9 @@ var XpiInstaller = {
   // --- Editable items begin ---
   extFullName    : 'JSView', // The name displayed to the user (don't include the version)
   extShortName   : 'jsview', // The leafname of the JAR file (without the .jar part)
-  extVersion     : '2.0.5',
+  extVersion     : '2.0.8',
   extAuthor      : 'Ron Beckman',
-  extLocaleNames : ['en-US','be-BY','cs-CZ','de-DE','es-ES','fr-FR','hr-HR','hu-HU','it-IT','ja-JP','ko-KR','nl-NL','pl-PL','pt-BR','pt-PT','ro-RO','ru-RU','tr-TR','zh-CN','zh-TW'],
+  extLocaleNames : ['en-US','be-BY','ca-AD','cs-CZ','de','de-CH','es-ES','fa-IR','fr','hr-HR','hu-HU','it-IT','ja-JP','ko-KR','nl','pl','pt-BR','pt-PT','ro-RO','ru-RU','sv-SE','tr-TR','uk-UA','zh-CN','zh-TW'],
   extSkinNames   : ['classic'], // e.g., ['classic','modern']
   extPreferences : ['jsview.js'], // e.g., ['extension.js']
   extComponents  : [],

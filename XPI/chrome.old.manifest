@@ -1,9 +1,7 @@
 overlay	chrome://browser/content/browser.xul	chrome://jsview/content/jsviewOverlay.xul
 overlay	chrome://navigator/content/navigator.xul	chrome://jsview/content/jsviewOverlay.xul
 overlay	chrome://songbird/content/xul/mainScriptsOverlay.xul	chrome://jsview/content/jsviewOverlay.xul
-#overlay	chrome://browser/content/pageinfo/pageInfo.xul	chrome://jsview/content/jsviewPageInfoOverlayFF.xul
-overlay	chrome://browser/content/pageinfo/pageInfo.xul	chrome://jsview/content/jsviewPageInfoOverlay2.xul
-overlay	chrome://navigator/content/pageinfo/pageInfo.xul	chrome://jsview/content/jsviewPageInfoOverlay2.xul
+overlay	chrome://browser/content/pageinfo/pageInfo.xul	chrome://jsview/content/jsviewPageInfoOverlayFF.xul
 overlay	chrome://global/content/viewSource.xul	chrome://jsview/content/jsviewViewSourceOverlay.xul
 overlay	chrome://navigator/content/viewSource.xul	chrome://jsview/content/jsviewViewSourceOverlay.xul
 overlay	chrome://global/content/customizeToolbar.xul	chrome://jsview/content/jsviewCustomizeToolbarOverlay.xul

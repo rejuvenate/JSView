@@ -53,8 +53,8 @@ xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 		<em:targetApplication>
 			<Description>
 				<em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
-				<em:minVersion>3.0</em:minVersion>
-				<em:maxVersion>20.*</em:maxVersion>
+				<em:minVersion>2.0</em:minVersion>
+				<em:maxVersion>9.0a1</em:maxVersion>
 			</Description>
 		</em:targetApplication>
 
@@ -62,7 +62,7 @@ xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 		<em:targetApplication>
 			<Description>
 				<em:id>{a463f10c-3994-11da-9945-000d60ca027b}</em:id>
-				<em:minVersion>1.1</em:minVersion>
+				<em:minVersion>1.0</em:minVersion>
 				<em:maxVersion>2.6.*</em:maxVersion>
 			</Description>
 		</em:targetApplication>
@@ -71,8 +71,8 @@ xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 		<em:targetApplication>
 			<Description>
 				<em:id>{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}</em:id>
-				<em:minVersion>2.0b1</em:minVersion>
-				<em:maxVersion>3.*</em:maxVersion>
+				<em:minVersion>1.1</em:minVersion>
+				<em:maxVersion>2.1a2</em:maxVersion>
 			</Description>
 		</em:targetApplication>
 
@@ -89,8 +89,8 @@ xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 		<em:targetApplication>
 			<Description>
 				<em:id>songbird@songbirdnest.com</em:id>
-				<em:minVersion>1.8</em:minVersion>
-				<em:maxVersion>2.*</em:maxVersion>
+				<em:minVersion>0.4</em:minVersion>
+				<em:maxVersion>1.8.*</em:maxVersion>
 			</Description>
 		</em:targetApplication>
 	</Description>

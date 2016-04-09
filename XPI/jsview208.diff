@@ -1,0 +1,532 @@
+--- C:/PROJECTS/MOZILLA/sidebar/mods/jsview/208/chrome.old.manifest	Tue Sep 27 17:37:54 2011
++++ C:/PROJECTS/MOZILLA/sidebar/mods/jsview/208/chrome.manifest	Sat Jan 07 00:46:51 2012
+@@ -1,11 +1,13 @@
+ overlay	chrome://browser/content/browser.xul	chrome://jsview/content/jsviewOverlay.xul
+ overlay	chrome://navigator/content/navigator.xul	chrome://jsview/content/jsviewOverlay.xul
+ overlay	chrome://songbird/content/xul/mainScriptsOverlay.xul	chrome://jsview/content/jsviewOverlay.xul
+-overlay	chrome://browser/content/pageinfo/pageInfo.xul	chrome://jsview/content/jsviewPageInfoOverlayFF.xul
++#overlay	chrome://browser/content/pageinfo/pageInfo.xul	chrome://jsview/content/jsviewPageInfoOverlayFF.xul
++overlay	chrome://browser/content/pageinfo/pageInfo.xul	chrome://jsview/content/jsviewPageInfoOverlay2.xul
++overlay	chrome://navigator/content/pageinfo/pageInfo.xul	chrome://jsview/content/jsviewPageInfoOverlay2.xul
+ overlay	chrome://global/content/viewSource.xul	chrome://jsview/content/jsviewViewSourceOverlay.xul
+ overlay	chrome://navigator/content/viewSource.xul	chrome://jsview/content/jsviewViewSourceOverlay.xul
+ overlay	chrome://global/content/customizeToolbar.xul	chrome://jsview/content/jsviewCustomizeToolbarOverlay.xul
+ 
+ content	jsview	jar:chrome/jsview.jar!/content/jsview/
+ 
+ skin	jsview	classic/1.0	jar:chrome/jsview.jar!/skin/classic/jsview/
+
+--- C:/PROJECTS/MOZILLA/sidebar/mods/jsview/208/install.old.rdf	Tue Sep 27 17:41:20 2011
++++ C:/PROJECTS/MOZILLA/sidebar/mods/jsview/208/install.rdf	Fri Jan 06 18:45:17 2012
+@@ -49,34 +49,34 @@
+ 			</Description>
+ 		</em:file>
+ 		
+ 		<!-- Mozilla Firefox -->
+ 		<em:targetApplication>
+ 			<Description>
+ 				<em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+-				<em:minVersion>2.0</em:minVersion>
+-				<em:maxVersion>9.0a1</em:maxVersion>
++				<em:minVersion>3.0</em:minVersion>
++				<em:maxVersion>20.*</em:maxVersion>
+ 			</Description>
+ 		</em:targetApplication>
+ 
+ 		<!-- Flock -->
+ 		<em:targetApplication>
+ 			<Description>
+ 				<em:id>{a463f10c-3994-11da-9945-000d60ca027b}</em:id>
+-				<em:minVersion>1.0</em:minVersion>
++				<em:minVersion>1.1</em:minVersion>
+ 				<em:maxVersion>2.6.*</em:maxVersion>
+ 			</Description>
+ 		</em:targetApplication>
+ 
+ 		<!-- SeaMonkey -->
+ 		<em:targetApplication>
+ 			<Description>
+ 				<em:id>{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}</em:id>
+-				<em:minVersion>1.1</em:minVersion>
+-				<em:maxVersion>2.1a2</em:maxVersion>
++				<em:minVersion>2.0b1</em:minVersion>
++				<em:maxVersion>3.*</em:maxVersion>
+ 			</Description>
+ 		</em:targetApplication>
+ 
+ 		<!-- Netscape -->
+ 		<!--<em:targetApplication>
+ 			<Description>
+ 				<em:id>{3db10fab-e461-4c80-8b97-957ad5f8ea47}</em:id>
+@@ -85,14 +85,14 @@
+ 			</Description>
+ 		</em:targetApplication>-->
+ 
+ 		<!-- Songbird -->
+ 		<em:targetApplication>
+ 			<Description>
+ 				<em:id>songbird@songbirdnest.com</em:id>
+-				<em:minVersion>0.4</em:minVersion>
+-				<em:maxVersion>1.8.*</em:maxVersion>
++				<em:minVersion>1.8</em:minVersion>
++				<em:maxVersion>2.*</em:maxVersion>
+ 			</Description>
+ 		</em:targetApplication>
+ 	</Description>
+ 
+ </RDF>
+
+--- C:/PROJECTS/MOZILLA/sidebar/mods/jsview/208/jar/content/jsview/jsviewCustomizeToolbarOverlay0.js	Thu Jun 24 02:17:10 2010
++++ C:/PROJECTS/MOZILLA/sidebar/mods/jsview/208/jar/content/jsview/jsviewCustomizeToolbarOverlay.js	Mon Mar 19 03:25:47 2012
+@@ -33,11 +33,13 @@
+ 
+ 	init: function() {
+ 
+ 	},
+ 
+ 	exit: function() {
+ 		var brows = jsvutils.getAppInfo();
+-		var win = jsvutils.getWin((brows.name == 'Songbird') ? 'Songbird:Main' : 'navigator:browser');
+-		win.jsview.load();
++		//var win = jsvutils.getWin((brows.name == 'Songbird') ? 'Songbird:Main' : 'navigator:browser');
++		var win = gToolbox.ownerDocument.defaultView;
++		if (win.jsview)
++			win.jsview.load();
+ 	}
+ };
+
+--- C:/PROJECTS/MOZILLA/sidebar/mods/jsview/208/jar/content/jsview/jsviewExternal0.js	Fri Feb 01 04:03:24 2008
++++ C:/PROJECTS/MOZILLA/sidebar/mods/jsview/208/jar/content/jsview/jsviewExternal.js	Fri Jan 06 23:05:48 2012
+@@ -11,15 +11,20 @@
+ 
+   mnsIWebBrowserPersist: Components.interfaces.nsIWebBrowserPersist,
+   mnsIWebProgress: Components.interfaces.nsIWebProgress,
+   mnsIWebPageDescriptor: Components.interfaces.nsIWebPageDescriptor,
+ 
+   getAppInfo: function() {
+     return Components.classes['@mozilla.org/xre/app-info;1'].
+-    createInstance(Components.interfaces.nsIXULAppInfo);
++    getService(Components.interfaces.nsIXULAppInfo);
++  },
++
++  getVersionCheck: function() {
++    return Components.classes['@mozilla.org/xpcom/version-comparator;1'].
++    getService(Components.interfaces.nsIVersionComparator);
+   },
+ 
+   getStr: function(name) {
+     return document.getElementById("jsview-bundle").getString(name);
+   },
+ 
+   viewSourceFF: function(url) {
+@@ -29,22 +34,24 @@
+   viewSourceSM: function(url) {
+     window.openDialog("chrome://navigator/content/viewSource.xul", "_blank", "all,dialog=no", url, null, null, null, null);
+   },
+ 
+   // Opens the interval view source viewer
+   openInInternalViewer: function(aURL, aPageDescriptor, aDocument)
+   {
+-	alert(this.getStr('jsview.EditorNF'));
++    alert(this.getStr('jsview.EditorNF'));
+ 
+-	var brows = this.getAppInfo();
+-	if (brows.name == 'SeaMonkey') {
+-		this.viewSourceSM(aURL);
+-	} else {
+-		this.viewSourceFF(aURL);
+-	}
++    var brows = this.getAppInfo();
++    var check = this.getVersionCheck();
++    if (brows.name == 'SeaMonkey' &&
++        check.compare(brows.version, "2.1a1") < 0) {
++      this.viewSourceSM(aURL);
++    } else {
++      this.viewSourceFF(aURL);
++    }
+   },
+ 
+   // aCallBack is a function accepting two arguments - result (true=success) and a data object
+   // It defaults to openInInternalViewer if undefined.
+   openInExternalEditor: function(aURL, aPageDescriptor, aDocument, aCallBack)
+   {
+     var data = {url: aURL, pageDescriptor: aPageDescriptor, doc: aDocument};
+@@ -243,15 +250,15 @@
+     var rdm = time.toString().substr(-4);
+     var bgn = 'jsview.' + rdm + '.';
+     var end = '.' + rdm + '.jsview';
+     if (aURI instanceof Components.interfaces.nsIURL) {
+       aURI.QueryInterface(Components.interfaces.nsIURL);
+       if (aURI.fileBaseName) {
+         name = (aURI.fileExtension) ? bgn + aURI.fileBaseName : aURI.fileBaseName;
+-	} else {
++    } else {
+         name = (aURI.host) ? aURI.host.replace(/\W/g,'_') : time;
+       }
+       ext = (aURI.fileExtension) ? '.' + aURI.fileExtension : end;
+     } else {
+       aURI.QueryInterface(Components.interfaces.nsIURI);
+       var spec = aURI.spec.replace(/\W/g,'_');
+       if (!spec) {
+
+--- C:/PROJECTS/MOZILLA/sidebar/mods/jsview/208/jar/content/jsview/jsviewPageInfo0.js	Wed Jun 23 23:39:56 2010
++++ C:/PROJECTS/MOZILLA/sidebar/mods/jsview/208/jar/content/jsview/jsviewPageInfo.js	Fri Jan 06 22:51:48 2012
+@@ -26,14 +26,16 @@
+ ***************************************************************************/
+ 
+ 
+ window.addEventListener("load", jsviewPageInfoLoad, false);
+ 
+ function jsviewPageInfoLoad() {
+ 	jsviewPageInfo.init();
++	if ("onLoadRegistry" in window)
++		onLoadRegistry.push(jsviewPageInfo.init);
+ }
+ 
+ var jsviewPageInfo = {
+ 
+ 	_styleElements: [],
+ 	_scriptElements: [],
+ 
+@@ -89,14 +91,15 @@
+ 				if (filesize) {
+ 					size = (entry.dataSize / 1024).toFixed(2) + ' ' + kb;
+ 				} else {
+ 					size = jsvutils.addCommas(entry.dataSize) + ' ' + bytes;
+ 				}
+ 			} catch(e) {
+ 				size = '??'; //display something to indicate size unknown
++				Components.utils.reportError(e);
+ 			}
+ 			child.appendChild(this.createItem([url,size]));
+ 		}
+ 	},
+ 
+ 	loadScripts: function() {
+ 		var url,size,cacheKey,entry,item,index;
+@@ -138,14 +141,15 @@
+ 					if (filesize) {
+ 						size = (entry.dataSize / 1024).toFixed(2) + ' ' + kb;
+ 					} else {
+ 						size = jsvutils.addCommas(entry.dataSize) + ' ' + bytes;
+ 					}
+ 				} catch(e) {
+ 					size = unk;
++					Components.utils.reportError(e);
+ 				}
+ 			}
+ 
+ 			item = this.createItem([url,size]);
+ 			if (url == embd) item.setAttribute('jsview',i);
+ 			child.appendChild(item);
+ 		}
+@@ -226,15 +230,16 @@
+ 		var urls = this.getSelectedUrls(tree);
+ 		jsvutils.copyToClipboard(urls.join('\r\n'));
+ 		return false;
+ 	},
+ 
+ 	getTree: function() {
+ 		var id;
+-		var panel = document.getElementById('tabbox').selectedPanel;
++		var panel = document.getElementById('tabbox') || document.getElementById('mainDeck');
++		panel = panel.selectedPanel;
+ 		if (panel.id == 'jsview-jsPanel') {
+ 			id = 'jsview-jsTree';
+ 		} else if (panel.id == 'jsview-cssPanel') {
+ 			id = 'jsview-cssTree';
+ 		} else {
+ 			id = 'jsview-frTree';
+ 		}
+
+--- C:/PROJECTS/MOZILLA/sidebar/mods/jsview/208/jar/content/jsview/jsviewUtils0.js	Thu Jun 24 00:41:22 2010
++++ C:/PROJECTS/MOZILLA/sidebar/mods/jsview/208/jar/content/jsview/jsviewUtils.js	Sat Jan 07 00:39:54 2012
+@@ -62,23 +62,30 @@
+ 	},
+ 
+ 	getAppInfo: function() {
+ 		return Components.classes['@mozilla.org/xre/app-info;1'].
+ 		createInstance(Components.interfaces.nsIXULAppInfo);
+ 	},
+ 
++	getVersionCheck: function() {
++		return Components.classes['@mozilla.org/xpcom/version-comparator;1'].
++		getService(Components.interfaces.nsIVersionComparator);
++	},
++
+ 	getBundleService: function() {
+ 		return Components.classes['@mozilla.org/intl/stringbundle;1'].
+ 		getService(Components.interfaces.nsIStringBundleService);
+ 	},
+ 
+ 	getCacheService: function() {
+-		return Components.classes["@mozilla.org/network/cache-service;1"].
+-		getService(Components.interfaces.nsICacheService).
+-		createSession("HTTP", 0, true);
++		var cache = Components.classes["@mozilla.org/network/cache-service;1"].
++		getService(Components.interfaces.nsICacheService).
++		createSession("HTTP", 0, true);
++		cache.doomEntriesIfExpired = false;
++		return cache;
+ 	},
+ 
+ 	getClipboard: function() {
+ 		return Components.classes["@mozilla.org/widget/clipboardhelper;1"].
+ 		getService(Components.interfaces.nsIClipboardHelper);
+ 	},
+ 
+@@ -243,17 +250,19 @@
+ 
+ 	getFileOutputStream: function() {
+ 		return Components.classes["@mozilla.org/network/file-output-stream;1"].
+ 		createInstance(Components.interfaces.nsIFileOutputStream);
+ 	},
+ 
+ 	getFrames: function(win) {
+-		if (!win) return [];
+-
+ 		var frms = [win];
++		if (window.gWindow)
++			frms = [window.gWindow];
++		else if (!win)
++			return [];
+ 
+ 		for (var i=0; i<frms.length; ++i) {
+ 			for (var j=0; j<frms[i].frames.length; ++j) {
+ 				frms.push(frms[i].frames[j]);
+ 			}
+ 			//we break after reaching 50 to avoid a possible endless loop from
+ 			//occurring if the website has coded frames within frames.........
+@@ -375,15 +384,15 @@
+ 			}
+ 		}
+ 		return arrNew;
+ 	},
+ 
+ 	urlToFile: function(url) {
+ 		return Components.classes['@mozilla.org/network/protocol;1?name=file'].
+-		createInstance(Components.interfaces.nsIFileProtocolHandler).
++		getService(Components.interfaces.nsIFileProtocolHandler).
+ 		getFileFromURLSpec(url);
+ 	},
+ 
+ 	viewAll: function(type,win) {
+ 		var prefs = this.getPrefs();
+ 		var bhvr = prefs.getIntPref('menuItemsBehavior');
+ 
+@@ -400,17 +409,19 @@
+ 
+ 		if (type == 4) {
+ 			var prefs = this.getPrefs();
+ 			type = prefs.getIntPref('menuItemsBehavior');
+ 		}
+ 
+ 		var brows = this.getAppInfo();
++		var check = this.getVersionCheck();
+ 		var win = this.getWin((brows.name == 'Songbird') ? 'Songbird:Main' : 'navigator:browser');
+ 		if (type == 0) {
+-			if (brows.name == 'SeaMonkey') {
++			if (brows.name == 'SeaMonkey' &&
++				check.compare(brows.version, "2.1a1") < 0) {
+ 				this.viewSourceSM(url);
+ 			} else {
+ 				this.viewSourceFF(url);
+ 			}
+ 		} else if (type == 1) {
+ 			url = 'view-source:' + url;
+ 			win.getBrowser().addTab(url);
+
+--- C:/PROJECTS/MOZILLA/sidebar/mods/jsview/208/jar/content/jsview/jsviewViewSourceOverlay0.js	Thu Jun 24 14:44:32 2010
++++ C:/PROJECTS/MOZILLA/sidebar/mods/jsview/208/jar/content/jsview/jsviewViewSourceOverlay.js	Fri Jan 06 23:40:58 2012
+@@ -114,15 +114,15 @@
+ 	},
+ 
+ 	hideView: function() {
+ 		var viw = document.getElementById('jsview-view');
+ 		if (!viw) return false;
+ 
+ 		var brows = jsvutils.getAppInfo();
+-		var MVP = document.getElementById((brows.name == 'SeaMonkey') ? 'menu_View_Popup' : 'viewmenu-popup');
++		var MVP = document.getElementById('viewmenu-popup') || document.getElementById('menu_View_Popup');
+ 		if (!MVP) return false;
+ 
+ 		var prefs = jsvutils.getPrefs();
+ 		var hv = prefs.getBoolPref('hideView');
+ 		viw.setAttribute('hidden',hv);
+ 
+ 		if (hv) {
+
+--- C:/PROJECTS/MOZILLA/sidebar/mods/jsview/208/jar/content/jsview/jsviewAbout0.xul	Thu Jun 24 14:27:54 2010
++++ C:/PROJECTS/MOZILLA/sidebar/mods/jsview/208/jar/content/jsview/jsviewAbout.xul	Fri Jan 06 23:45:36 2012
+@@ -20,15 +20,15 @@
+ <script type="application/x-javascript" src="chrome://jsview/content/jsviewUtils.js"/>
+ 
+ <vbox class="jsview-bgroundImg" pack="center">
+   <hbox>
+     <label value="&jsview.ExtName;" class="jsview-boldLarge" flex="1"/>
+     <vbox>
+       <spacer flex="1"/>
+-      <label value="&jsview.Version; 2.0.6"/>
++      <label value="&jsview.Version; 2.0.8"/>
+       <spacer flex="1"/>
+     </vbox>
+   </hbox>
+   <separator class="thin"/>
+   <label value="&jsview.Description;" class="jsview-boldNormal"/>
+   <label value="&jsview.About;"/>
+   <separator class="thin"/>
+
+--- C:/PROJECTS/MOZILLA/sidebar/mods/jsview/208/jar/content/jsview/jsviewOverlay0.xul	Tue Aug 30 16:24:04 2011
++++ C:/PROJECTS/MOZILLA/sidebar/mods/jsview/208/jar/content/jsview/jsviewOverlay.xul	Fri Jan 06 23:49:54 2012
+@@ -68,40 +68,41 @@
+ <window id="main-window">
+   <popupset id="mainPopupSet"/>
+ </window>
+ 
+ <popupset id="mainPopupSet">
+   <menupopup
+   id="jsview-menupopup">
+-    <!--<menuitem
++    <menuitem
+     id="jsview-about"
+     label="&jsview.JsvAbout;"
+     onclick="jsview.viewAbout();"
+-    class="menuitem-iconic"/>-->
++    class="menuitem-iconic"/>
+ 
+     <menuitem
+     id="jsview-options"
+     label="&jsview.Options;"
+     onclick="jsview.viewOptions();"
+     class="menuitem-iconic"/>
+ 
+-    <!--<menuitem
++    <menuitem
+     id="jsview-objref"
+     label="&jsview.ObjRef;"
+     onclick="jsview.viewObjRef();"
+-    class="menuitem-iconic"/>-->
++    class="menuitem-iconic"/>
+ 
+     <menuitem
+     id="jsview-pageinfo"
+     label="&jsview.PageInfo;"
+     onclick="jsview.viewPageInfo();"
+     class="menuitem-iconic"/>
+ 
+     <menuitem
+     id="jsview-viewsource"
+     label="&jsview.ViewSource;"
++    oncommand="jsvutils.viewSource(window.content.location.href,0);"
+     onclick="if (event.which == 1) jsvutils.viewSource(window.content.location.href,0); else jsvutils.promptBehavior(event,this.parentNode,window.content.location.href);"
+     class="menuitem-iconic"/>
+   </menupopup>
+ </popupset>
+ 
+ </overlay>
+
+--- C:/PROJECTS/MOZILLA/sidebar/mods/jsview/208/jar/content/jsview/jsviewPageInfoOverlayFF0.xul	Wed Jun 23 00:43:16 2010
++++ C:/PROJECTS/MOZILLA/sidebar/mods/jsview/208/jar/content/jsview/jsviewPageInfoOverlayFF.xul	Sat Jan 07 00:08:09 2012
+@@ -13,14 +13,15 @@
+   <stringbundle id="jsview-bundle" src="chrome://jsview/locale/jsview.properties"/>
+ </stringbundleset>
+ 
+ <windowdragbox id="topBar">
+   <radiogroup id="viewGroup">
+     <radio id="jsviewTab"
+     label="&jsview.ExtName;"
++    class="jsview-tab"
+     oncommand="showTab('jsview');"/>
+   </radiogroup>
+ </windowdragbox>
+ 
+ <deck id="mainDeck">
+   <vbox id="jsviewPanel" flex="1">
+     <tabbox id="tabbox" flex="1">
+
+--- C:/PROJECTS/MOZILLA/sidebar/mods/jsview/206/jar/content/jsview/jsviewPageInfoOverlay2.xul	Fri Jul 09 18:42:41 2010
++++ C:/PROJECTS/MOZILLA/sidebar/mods/jsview/208/jar/content/jsview/jsviewPageInfoOverlay2.xul	Fri Jan 06 22:59:10 2012
+@@ -1,15 +1,17 @@
+ <?xml version="1.0"?>
+ <?xml-stylesheet href="chrome://jsview/skin/jsviewStyle.css" type="text/css"?>
+ 
+ <!DOCTYPE overlay SYSTEM "chrome://jsview/locale/jsview.dtd">
+ 
+ <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+ 
+-<script type="application/x-javascript" src="chrome://jsview/content/jsviewPageInfoOverlay2.js"/>
++<script type="application/x-javascript" src="chrome://jsview/content/jsviewPageInfo.js"/>
++<script type="application/x-javascript" src="chrome://jsview/content/jsviewExternal.js"/>
++<script type="application/x-javascript" src="chrome://jsview/content/jsviewUtils.js"/>
+ 
+ <stringbundleset id="pageinfobundleset">
+   <stringbundle id="jsview-bundle" src="chrome://jsview/locale/jsview.properties"/>
+ </stringbundleset>
+ 
+   <tabs id="tabs">
+     <tab label="&jsview.Scripts;" id="jsview-jsTab"/>
+@@ -31,39 +33,36 @@
+     <vbox id="jsview-jsPanel">
+       <tree id="jsview-jsTree" flex="1" seltype="multiple" contextmenu="jsview-popup">
+         <treecols>
+           <treecol id="jsview-jsSource" label="&jsview.Source;" flex="1"  persist="width hidden"/>
+           <splitter class="tree-splitter"/>
+           <treecol id="jsview-jsSize" label="&jsview.Size;" persist="width hidden"/>
+         </treecols>
+-
+         <treechildren id="jsview-jsChild" ondblclick="jsviewPageInfo.viewSource(0);"/>
+       </tree>
+     </vbox>
+ 
+     <vbox id="jsview-cssPanel">
+       <tree id="jsview-cssTree" flex="1" seltype="multiple" contextmenu="jsview-popup">
+         <treecols>
+           <treecol id="jsview-cssSource" label="&jsview.Source;" flex="1" persist="width hidden"/>
+           <splitter class="tree-splitter"/>
+           <treecol id="jsview-cssSize" label="&jsview.Size;" persist="width hidden"/>
+         </treecols>
+-
+         <treechildren id="jsview-cssChild" ondblclick="jsviewPageInfo.viewSource(0);"/>
+       </tree>
+     </vbox>
+ 
+     <vbox id="jsview-frPanel">
+       <tree id="jsview-frTree" flex="1" seltype="multiple" contextmenu="jsview-popup">
+         <treecols>
+           <treecol id="jsview-frSource" label="&jsview.Source;" flex="1" persist="width hidden"/>
+           <splitter class="tree-splitter"/>
+           <treecol id="jsview-frSize" label="&jsview.Size;" persist="width hidden"/>
+         </treecols>
+-
+         <treechildren id="jsview-frChild" ondblclick="jsviewPageInfo.viewSource(0);"/>
+       </tree>
+     </vbox>
+   </tabpanels>
+ 
+ <window id="main-window">
+   <popupset id="mainPopupSet">
+
+--- C:/PROJECTS/MOZILLA/sidebar/mods/jsview/208/jar/skin/classic/jsview/jsviewStyle0.css	Thu Jun 24 01:58:32 2010
++++ C:/PROJECTS/MOZILLA/sidebar/mods/jsview/208/jar/skin/classic/jsview/jsviewStyle.css	Sat Jan 07 18:31:52 2012
+@@ -129,17 +129,11 @@
+ .jsview-js {
+   list-style-image: url("chrome://jsview/skin/js.gif");
+   list-style-position: inside;
+   -moz-image-region: rect(0px, 16px, 16px, 0px);  
+   -moz-box-orient: horizontal;
+ }
+ 
+-#jsviewTab {
+-  list-style-image: url("chrome://jsview/skin/jsview.gif") !important;
+-  -moz-box-orient: vertical;
+-  -moz-box-align: center;
+-  -moz-appearance: none;
+-  min-width: 4.5em;
+-  margin: 0;
+-  padding: 3px;
+-  color: -moz-FieldText;
++#viewGroup > .jsview-tab,
++#viewGroup > #jsviewTab {
++  list-style-image: url("chrome://jsview/skin/jsview.gif");
+ }
+

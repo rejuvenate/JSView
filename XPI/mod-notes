@@ -1,0 +1,39 @@
+JSView 1.1.2:
+  + content/contents.rdf:
+    + overlay "chrome://navigator/content/viewSource.xul"
+    + overlay "chrome://navigator/content/pageInfo.xul"
+    + add settingsURL and iconURL to attributes.
+  + jsviewOverlay.xul:
+    + Copy <menu_viewPopup> to <menu_View_Popup>
+    + Copy <menu_ToolsPopup> to <taskPopup>
+  + jsviewOverlay.js: handle <menu_View_Popup> as well.
+  + pageinfoOverlay.js:
+    + topWin when PageInfo is in the sidebar.
+    + moved onload function calls to onLoadRegistry.
+JSView 1.1.4:
+  + jsviewOverlay.js:
+    + Rewrote viewSourceOfURL() for cross-browser compatibility.
+  + pageinfoOverlay.js:
+    + Moved overlaid onload functions to the onLoadRegistry[].
+JSView 1.1.5:
+  chrome://navigator/content/viewSource.xul
+  chrome://navigator/content/pageInfo.xul
+JSView 2.0.5:
+  + Updated install.rdf and chrome.manifest for SeaMonkey 2.0 and Firefox 3.0.
+  + Overlay the SeaMonkey 2.0 PageInfo with jsviewPageInfoOverlay2.xul.
+  + Overlay the Firefox 3.0 PageInfo with jsviewPageInfoOverlay2.xul.
+  + See diff file for other changes and details.
+JSView 2.0.6:
+  + Updated install.rdf and chrome.manifest for SeaMonkey 2.1 and Firefox 4.0.
+  + Overlay the SeaMonkey 2.0 PageInfo with jsviewPageInfoOverlay2.xul.
+  + Overlay the Firefox 3.0 PageInfo with jsviewPageInfoOverlay2.xul.
+  + SeaMonkey 2.1a1 now uses the toolkit viewSource. Add a version check.
+  + See diff file for other changes and details.
+
+JSView 2.0.8:
+  + Updated install.rdf and chrome.manifest for SeaMonkey 2.1+ and Firefox 4.0+.
+  + Overlay the SeaMonkey 2.0 PageInfo with jsviewPageInfoOverlay2.xul.
+  + Overlay the Firefox 3.0 PageInfo with jsviewPageInfoOverlay2.xul.
+  + SeaMonkey 2.1a1 now uses the toolkit viewSource. Add a version check.
+  + Simplify the CSS for the JSView button in the PageInfo window.
+  + See diff file for other changes and details.
