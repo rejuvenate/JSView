@@ -1,4 +1,6 @@
 # JSView
+Also [rewritten for Chrome & Chromium-based browsers](https://github.com/nekman/jsview) by [@nekman](https://github.com/nekman/) 
+
 Original author ***"csdev"***:
 >All browsers include a "View Source" option, but none of them offer the ability to view the source code of external files. Most websites store their javascripts and style sheets in external files and then link to them within a web page's source code. Previously if you wanted to view the source code of an external javascript/stylesheet you would have to manually look through the source code to find the url and then type that into your browser.
 
